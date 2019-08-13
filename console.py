@@ -11,7 +11,7 @@ from models.amenity import Amenity
 from models.place import Place
 from models.review import Review
 from shlex import split
-
+from ast import literal_eval
 
 class HBNBCommand(cmd.Cmd):
     """this class is entry point of the command interpreter
