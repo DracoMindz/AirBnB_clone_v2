@@ -49,6 +49,8 @@ class HBNBCommand(cmd.Cmd):
                 if type(item_type) is str:
                     listitem[1] = listitem[1].replace('_', ' ')
                     var = listitem[1][1:-1].replace('"', '\\"')
+                    setattr(obj, listitem[0], var)
+                elif type(item_type) is int or type(item_type) is float:
                     setattr(obj, listitem[0], eval(listitem[1]))
             obj.save()
             print("{}".format(obj.id))
