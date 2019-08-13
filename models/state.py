@@ -9,3 +9,10 @@ class State(BaseModel):
         name: input name
     """
     name = ""
+    __tablename__ = "states"
+    name = Column(string(128), nullable=False)
+    cities = relationship("City", cascade="all, delete-orphan", back_populates="state")
+
+    @property
+    def cities(self):
+    """getter for cities"""
