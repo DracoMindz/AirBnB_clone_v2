@@ -64,6 +64,7 @@ class FileStorage:
         index = type(obj).__name__ + "." + obj.id
         if index is self.__objects:
             del self.__objects[index]
+        FileStorage.save(self)
 
     def reload(self):
         """serialize the file path to JSON file path
