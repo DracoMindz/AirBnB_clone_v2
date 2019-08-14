@@ -13,19 +13,28 @@ from models.review import Review
 class FileStorage:
     """This class serializes instances to a JSON file and
     deserializes JSON file to instances
-    Attributes:
+    Attributes
         __file_path: path to the JSON file
         __objects: objects will be stored
     """
     __file_path = "file.json"
     __objects = {}
 
-    def all(self):
+    def all(self, cls=None):
         """returns a dictionary
         Return:
-            returns a dictionary of __object
+            returns a dictionary of __object without class
+        if class:
+            returns list of objects of one type of class
         """
-        return self.__objects
+        obj_dict = {}
+        if cls:
+            for key, value in self.__objects.items():
+                obj_dict = {key: value for key}
+                if cls.__name__ in key:
+                return obj_dict
+        else:
+            return self.__objects
 
     def new(self, obj):
         """sets __object to given obj
@@ -44,6 +53,13 @@ class FileStorage:
             my_dict[key] = value.to_dict()
         with open(self.__file_path, 'w', encoding="UTF-8") as f:
             json.dump(my_dict, f)
+
+    def delete(self, obj=None):
+        """to delete obj from __objects if it is inside
+        """
+        for obj in self.__objects:
+            if obj is not None:
+                del self.__objects["{}.{}".format(type(obj).__name__, obj.id)]
 
     def reload(self):
         """serialize the file path to JSON file path
