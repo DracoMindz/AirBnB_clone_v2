@@ -27,14 +27,15 @@ class FileStorage:
         if class:
             returns list of objects of one type of class
         """
-        obj_dict = {}
-        if cls:
-            for key, value in self.__objects.items():
-                obj_dict = {key: value for key}
-                if cls.__name__ in key:
-                return obj_dict
-        else:
+        if cls in None:
             return self.__objects
+        else:
+            obj_dict = {}
+            if cls:
+                for key, value in self.__objects.items():
+                    if cls == type(value):
+                        obj_dict[key] = value
+            return obj_dict
 
     def new(self, obj):
         """sets __object to given obj
@@ -57,9 +58,11 @@ class FileStorage:
     def delete(self, obj=None):
         """to delete obj from __objects if it is inside
         """
-        for obj in self.__objects:
-            if obj is not None:
-                del self.__objects["{}.{}".format(type(obj).__name__, obj.id)]
+        if obj is None:
+            return
+        index = type(obj).__name__ + "." + obj.id
+        if index is self.__objects:
+            del self.__objects[index]
 
     def reload(self):
         """serialize the file path to JSON file path
