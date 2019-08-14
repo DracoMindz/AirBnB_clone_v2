@@ -30,9 +30,9 @@ class FileStorage:
         obj_dict = {}
         if cls:
             for key, value in self.__objects.items():
-                obj_dict = {key: value for key}
+                obj_dict = (key, value for key)
                 if cls.__name__ in key:
-                return obj_dict
+                    return obj_dict
         else:
             return self.__objects
 
