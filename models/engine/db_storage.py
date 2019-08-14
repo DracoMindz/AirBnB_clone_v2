@@ -44,4 +44,20 @@ class DBStorage(BaseModel, Base):
 
     def save(self):
         """save all changes"""
+
         self.__session.commit()
+
+    def delete(self, obj=None):
+        """delete object from database"""
+
+        if obj is not None:
+            self.__session.delete(obj)
+
+    def reload(self):
+        City = models.city.City()
+        State = models.state.State()
+        models.base_model.Base.metadata.create_all(self.__engine)
+        session_factory = sessionmaker(bind=self.__engine, expire_on_commit=False)
+        Session = scoped_session(session_factory)
+        self.__session = Session()
+        
