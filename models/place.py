@@ -4,8 +4,8 @@ from models.base_model import BaseModel, Base, Column, String
 from models.base_model import Integer
 from sqlalchemy import Column, String, ForeignKey, Integer, Float, Table
 from sqlalchemy.orm import relationship
-import os
-
+=======
+>>>>>>> fcdfdb1ef1a65d1f1e7e4829215b00437e252928
 
 place_amenity = Table('place_amenity', Base.metadata,
                       Column('place_id', String(60),
@@ -21,7 +21,7 @@ class Place(BaseModel):
         name: name input
         description: string of description
         number_rooms: number of room in int
-        number_bathrooms: number of bathrooms in int
+        number_bathrooms: number of bathrooms in i nt
         max_guest: maximum guest in int
         price_by_night:: pice for a staying in int
         latitude: latitude in flaot
@@ -29,20 +29,34 @@ class Place(BaseModel):
         amenity_ids: list of Amenity ids
     """
     __tablename__ = 'places'
-    city_id = Column(String(60), ForeignKey('cities.id'), nullable=False)
-    user_id = Column(String(60), ForeignKey('users.id'), nullable=False)
-    name = Column(String(128), nullable=False)
-    description = Column(String(1024), nullable=False)
-    number_rooms = Column(Integer, nullable=False, default=0)
-    number_bathrooms = Column(Integer, nullable=False, default=0)
-    max_guest = Column(Integer, nullable=False, default=0)
-    price_by_night = Column(Integer, nullable=False, default=0)
-    latitude = Column(Float, nullable=True)
-    longitude = Column(Float, nullable=True)
-    amenity_ids = []
+=======
+    if os.getenv('HBNB_TYPE_STORAGE') == 'db':
+        city_id = Column(String(60), nullable=False, ForeignKey('cities.id'))
+        user_id = Column(String(60), nullable=False, ForeignKey('users.id'))
+        name = Column(String(128), nullable=False)
+        description = Column(String(1024), nullable=False)
+        number_rooms = Column(Integer, nullable=False, default=0)
+        number_bathrooms = Column(Integer, nullable=False, default=0)
+        max_guest = Column(Integer, nullable=False, default=0)
+        price_by_night = Column(Integer, nullable=False, default=0)
+        latitude = Column(Float, nullable=True)
+        longitude = Column(Float, nullable=True)
+        reviews = relationship('Review',
+                               back_populate='place',
+                               cascade='all, delete, delete-orphan')
+        amenity_ids = []
 
-    if os.getenv("HBNB_TYPE_STORAGE") == "db":
-        """ if this database environment is used"""
-        reviews = relationship("Review",
-                               backref='place',
-                               cascade='delete, delete-orphan')
+    else:
+        city_id = ""
+        user_id = ""
+        name = ""
+        description = ""
+        number_rooms = ""
+        number_bathrooms = ""
+        max_guest = ""
+        price_by_night = ""
+        latitude = ""
+        longitude = ""
+        reviews = ""
+        amenity_ids = []
+>>>>>>> fcdfdb1ef1a65d1f1e7e4829215b00437e252928
