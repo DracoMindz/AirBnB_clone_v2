@@ -1,10 +1,8 @@
 !/usr/bin/python3
 """This is the user class"""
-from models.base_model import BaseModel, Base
-from sqlalchemy import Column, String
-from sqlalchemy.orm import relationship, backref
+from models.base_model import BaseModel, Base, Column, String
+from sqlalchemy.orm import relationship
 import os
-import models
 
 
 class User(BaseModel, Base):
@@ -28,8 +26,8 @@ class User(BaseModel, Base):
         last_name = ""
 
     place = relationship("Place",
-                             backref='user',
-                             cascade='delete', 'delete-orphan')
+                         back_populates='user',
+                         cascade='all, delete, delete-orphan')
     review = relationship("Review",
-                          backref='user',
-                          cascade='delete', 'delete-orphan')
+                          back_populates='user',
+                          cascade='all, delete, delete-orphan')

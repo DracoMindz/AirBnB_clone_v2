@@ -4,6 +4,14 @@
 import sqlachemy as db
 from sqlachemy.orm import sessionmaker
 from os import getenv
+import models
+from models.city import City
+from models.state import State
+from models.review import Review
+from models.amenity import Amenity
+from models.user import User
+from models.place import Place
+from models.base_model import BaseModel, Base
 
 
 class DBStorage(BaseModel, Base):
@@ -27,20 +35,27 @@ class DBStorage(BaseModel, Base):
     def all(self, cls=None):
         """lists stored objects"""
 
-        if cls == None:
-            query = self.__session.query(User, State, City, Amenity, Place, Review).all()
-        else:
+        all_dict = {}
+        list_of_classes = [State, City]
+        if cls is not None:
             query = self.__session.query(cls).all()
-        return dict(query)
+            for obj in query:
+                dict_of_obj = obj.to_dict()
+                key = dict_of_obj['__class__'] + '.' + dict_of_obj['id']
+                a_dict[key] = obj
+        elif cls is None:
+            for classes in list_of_classes:
+                query = self.__session.query(classes).all()
+                for obj in query:
+                    dict_of_obj = obj.to_dict()
+                    key = dict_of_obj['__class__'] + '.' + dict_of_obj['id']
+                    a_dict[key] = obj
+        return (a_dict)
 
     def new(self, obj):
         """to add object to database"""
 
-        try:
-            newobj = obj
-            self.__session.add(newobj)
-        except:
-            raise(UsageError("Usage: DBStorage.new(<obj>)"))
+        self.__session.add(obj)
 
     def save(self):
         """save all changes"""
@@ -54,10 +69,7 @@ class DBStorage(BaseModel, Base):
             self.__session.delete(obj)
 
     def reload(self):
-        City = models.city.City()
-        State = models.state.State()
-        models.base_model.Base.metadata.create_all(self.__engine)
+        Base.metadata.create_all(self.__engine)
         session_factory = sessionmaker(bind=self.__engine, expire_on_commit=False)
         Session = scoped_session(session_factory)
         self.__session = Session()
-        
