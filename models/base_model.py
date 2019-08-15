@@ -27,12 +27,12 @@ class BaseModel:
         """
         if kwargs:
             for key, value in kwargs.items():
+                time = datetime.strptime(value, "%Y-%m-%dT%H:%M:%S.%f")
                 if (key == "created_at" or key == "updated_at") and key != "__class__":
-                    time = datetime.strptime(value, "%Y-%m-%dT%H:%M:%S.%f")
-                if key != "__class__":
-                    setattr(self, key, time)
-            if key != "created_at" and key != "updated_at" and kwy != "__class__":
-                setattr(self, key, value)
+                    if key != "__class__":
+                        setattr(self, key, time)
+                        if key != "created_at" and key != "updated_at" and kwy != "__class__":
+                            setattr(self, key, value)
         else:
             self.id = str(uuid.uuid4())
             self.created_at = self.upsated_at = datetime.now()

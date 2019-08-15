@@ -1,12 +1,17 @@
 #!/usr/bin/python3
 """This is the place class"""
-from models.base_model import BaseModel
-import models
-from models.amenity import Amenity
-import os
+from models.base_model import BaseModel, Base, Column, String
+from models.base_model import Integer
 from sqlalchemy import Column, String, ForeignKey, Integer, Float, Table
-from sqlalchemy.orm import relationship, backref
+from sqlalchemy.orm import relationship
+import os
 
+
+place_amenity = Table('place_amenity', Base.metadata,
+                      Column('place_id', String(60),
+                             ForeignKey('places.id'), nullable=False),
+                      Column('amenity_id', String(60),
+                             ForeignKey('amenities.id'), nullable=False))
 
 class Place(BaseModel):
     """This is the class for Place
@@ -24,8 +29,8 @@ class Place(BaseModel):
         amenity_ids: list of Amenity ids
     """
     __tablename__ = 'places'
-    city_id = Column(String(60), nullable=False, ForeignKey('cities.id')
-    user_id = Column(String(60), nullable=False, ForeignKey('users.id')
+    city_id = Column(String(60), ForeignKey('cities.id'), nullable=False)
+    user_id = Column(String(60), ForeignKey('users.id'), nullable=False)
     name = Column(String(128), nullable=False)
     description = Column(String(1024), nullable=False)
     number_rooms = Column(Integer, nullable=False, default=0)
@@ -36,8 +41,8 @@ class Place(BaseModel):
     longitude = Column(Float, nullable=True)
     amenity_ids = []
 
-    if getenv("HBNB_TYPE_STORAGE") == "db":
-    """ if this database environment is used"""
-       reviews = relationship("Review",
-                              backref='place',
-                              cascade='delete', 'delete-orphan')
+    if os.getenv("HBNB_TYPE_STORAGE") == "db":
+        """ if this database environment is used"""
+        reviews = relationship("Review",
+                               backref='place',
+                               cascade='delete, delete-orphan')
