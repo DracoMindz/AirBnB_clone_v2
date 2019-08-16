@@ -8,11 +8,14 @@ from sqlalchemy import *
 import os
 
 
+metadata = Base.metadata
+
 place_amenity = Table('place_amenity', Base.metadata,
                       Column('place_id', String(60),
                              ForeignKey('places.id'), nullable=False),
                       Column('amenity_id', String(60),
                              ForeignKey('amenities.id'), nullable=False))
+
 
 class Place(BaseModel):
     """This is the class for Place
@@ -29,8 +32,8 @@ class Place(BaseModel):
         longitude: longitude in float
         amenity_ids: list of Amenity ids
     """
-    __tablename__ = 'places'
 
+    __tablename__ = 'places'
     if os.getenv('HBNB_TYPE_STORAGE') == 'db':
         city_id = Column(String(60), ForeignKey('cities.id'), nullable=False)
         user_id = Column(String(60), ForeignKey('users.id'), nullable=False)
@@ -45,6 +48,11 @@ class Place(BaseModel):
         reviews = relationship('Review',
                                back_populate='place',
                                cascade='all, delete, delete-orphan')
+        amenities = relationship('Amenity',
+                                 secondary='place_amenity',
+                                 back_populates='place_amenities',
+                                 viewonly=False)
+
         amenity_ids = []
 
     else:
@@ -60,3 +68,18 @@ class Place(BaseModel):
         longitude = ""
         reviews = ""
         amenity_ids = []
+
+        @property
+        def amenities(self):
+            """ getter"""
+            amenity_list = []
+            for amenity.id in models.storage.all('Amenity'):
+                if amenity.id in amenity_ids:
+                    amenity_list.append(amentiy.id)
+                return amenity_list
+
+        @setter
+        def amenities(self, obj):
+            """setter"""
+            if isinstance(obj, Amenity):
+                self.amenity_ids.append(obj.id)
