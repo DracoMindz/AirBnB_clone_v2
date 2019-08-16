@@ -4,8 +4,7 @@ from models.base_model import BaseModel, Base, Column, String
 from models.base_model import Integer
 from sqlalchemy import Column, String, ForeignKey, Integer, Float, Table
 from sqlalchemy.orm import relationship
-=======
->>>>>>> fcdfdb1ef1a65d1f1e7e4829215b00437e252928
+import os
 
 place_amenity = Table('place_amenity', Base.metadata,
                       Column('place_id', String(60),
@@ -29,10 +28,10 @@ class Place(BaseModel):
         amenity_ids: list of Amenity ids
     """
     __tablename__ = 'places'
-=======
+
     if os.getenv('HBNB_TYPE_STORAGE') == 'db':
-        city_id = Column(String(60), nullable=False, ForeignKey('cities.id'))
-        user_id = Column(String(60), nullable=False, ForeignKey('users.id'))
+        city_id = Column(String(60), ForeignKey('cities.id'), nullable=False)
+        user_id = Column(String(60), ForeignKey('users.id'), nullable=False)
         name = Column(String(128), nullable=False)
         description = Column(String(1024), nullable=False)
         number_rooms = Column(Integer, nullable=False, default=0)
@@ -59,4 +58,3 @@ class Place(BaseModel):
         longitude = ""
         reviews = ""
         amenity_ids = []
->>>>>>> fcdfdb1ef1a65d1f1e7e4829215b00437e252928

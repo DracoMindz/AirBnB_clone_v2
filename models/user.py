@@ -16,7 +16,7 @@ class User(BaseModel):
         last_name: last name
     """
     __tablename__ = 'User'
-=======
+
     if os.getenv('HBNB_TYPE_STORAGE') == 'db':
         email = Column(String(128), nullable=False)
         password = Column(String(128), nullable=False)
@@ -27,7 +27,7 @@ class User(BaseModel):
         password = ""
         first_name = ""
         last_name = ""
->>>>>>> fcdfdb1ef1a65d1f1e7e4829215b00437e252928
+
 
 #    place = relationship("Place",
 #                         back_populates='user',

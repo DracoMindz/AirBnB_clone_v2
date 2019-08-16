@@ -9,7 +9,6 @@ from sqlalchemy.ext.declarative import declarative_base
 Base = declarative_base()
 fmt = '"%Y-%m-%dT%H:%M:%S.%f"'
 
-
 class BaseModel:
     """This class will defines all common attributes/methods
     for other classes
@@ -27,11 +26,10 @@ class BaseModel:
         """
         if kwargs:
             for key, value in kwargs.items():
-                time = datetime.strptime(value, "%Y-%m-%dT%H:%M:%S.%f")
                 if (key == "created_at" or key == "updated_at") and key != "__class__":
-                    if key != "__class__":
-                        setattr(self, key, time)
-                        if key != "created_at" and key != "updated_at" and kwy != "__class__":
+                    time = datetime.strptime(value, "%Y-%m-%dT%H:%M:%S.%f")
+                    setattr(self, key, time)
+            if key != "created_at" and key != "updated_at" and key != "__class__":
                             setattr(self, key, value)
         else:
             self.id = str(uuid.uuid4())
