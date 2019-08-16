@@ -6,6 +6,7 @@ from models.amenity import Amenity
 import os
 from sqlalchemy import Column, String, ForeignKey, Integer, Float, Table
 from sqlalchemy.orm import relationship
+from sqlalchemy import *
 
 
 class Place(BaseModel):
