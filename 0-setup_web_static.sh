@@ -9,7 +9,7 @@ mkdir -p /data/web_static/shared/
 mkdir -p /data/web_static/releases/test/
 echo 'Holbeton School' > /data/web_static/releases/test/index.html
 ln -sf /data/web_static/releases/test/ /data/web_static/current
-chown -R ubuntu:ubunt /data/
+chown -R ubuntu:ubuntu /data/
 
 sudo sed -i "/^}/ i\ \location /hbnb_static {\n\t\talias /data/web_static/current/;\n\t}" /etc/nginx/sites-enabled/default
 service nginx restart
