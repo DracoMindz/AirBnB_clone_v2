@@ -3,9 +3,6 @@
 from fabric.api import *
 from datetime import datetime
 from os
-
-
-
 env.hosts = ['35.237.127.124', '34.74.215.227']
 
 
@@ -24,14 +21,16 @@ def do_pack():
     else:
         return result
 
+
 def do_deploy(archive_path):
     """ distributes an archive to web serers, using do_deply """
     if not os.path.isfile(archive_path) is 0:
         return False
     try:
         put(archive_path, "/tmp/")
-        a_path = archive_path[9:-4]
-        run("sudo mkdir -p /data/web_static/releases/web_static_{}/".format(a_path))
+        a_path = archive_path.split('/')
+        run("sudo mkdir -p /data/web_static/releases/web_static_{}/"
+            .format(a_path))
         run("sudo tar -xzf /tmp/web_static_{}.tgz -C "
             "/data/web_static/releases/web_static_{}".format(a_path, a_path))
         run("sudo rm /tmp/web_static_{}.tgz".format(a_path))
@@ -45,4 +44,5 @@ def do_deploy(archive_path):
     except:
         return False
     else:
+        print('New version deployed!')
         return True
