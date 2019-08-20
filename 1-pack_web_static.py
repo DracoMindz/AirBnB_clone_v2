@@ -12,8 +12,8 @@ def do_pack():
 
     """
     local('mkdir -p versions')
-    time = datetime.now().strftime('%Y%m%d%H%M%S')
-    result = local('tar -czvf versions/web_static_{}.tgz web_static)'
+    time = datetime.now().strftime("%Y%m%d%H%M%S")
+    result = local('tar -czvf versions/web_static_{}.tgz web_static'
                    .format(time))
     if result.failed:
         return None
