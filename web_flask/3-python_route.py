@@ -30,11 +30,11 @@ def text_var(text):
 
 @app.route("/python", strict_slashes=False)
 @app.route("/python/(<text>)", strict_slashes=False)
-def python(text="is cool"):
+def python_cool(text="is cool"):
     """
     Return Python, display text variable as default
     Route depends on if text is provided
-    Text default is set at "is cool"
+    Text default value = "is cool"
     """
     return "Python {}".format(text.replace("_", " "))
 
