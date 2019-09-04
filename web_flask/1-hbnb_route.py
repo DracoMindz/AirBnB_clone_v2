@@ -1,6 +1,6 @@
 #!/usr/bin/python3
-""" 
-States Rules for accessing parts of the web 
+"""
+States Rules for accessing parts of the web
 """
 
 from flask import Flask
@@ -11,6 +11,7 @@ app = Flask(__name__)
 def hello_hbnb():
     """ prints Hello HBNB """
     return "Hello HBNB!"
+
 
 @app.route("/hbnb", strict_slashes=False)
 def hbnb():
