@@ -20,7 +20,7 @@ def hbnb():
 
 
 @app.route("/c/<text>", strict_slashes=False)
-def text_var():
+def text_var(text):
     """
     Return C, display text varible
     Set text variable
