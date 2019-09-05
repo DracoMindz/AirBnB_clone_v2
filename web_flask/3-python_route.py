@@ -28,7 +28,7 @@ def text_var(text):
     return "C {}".format(text.replace("_", " "))
 
 
-@app.route("/python", strict_slashes=False)
+@app.route("/python/", strict_slashes=False)
 @app.route("/python/<text>", strict_slashes=False)
 def python_default(text='is cool'):
     """
