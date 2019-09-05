@@ -29,7 +29,7 @@ def text_var(text):
 
 
 @app.route("/python/", strict_slashes=False)
-@app.route("/python/(<text>)", strict_slashes=False)
+@app.route("/python/<text>", strict_slashes=False)
 def python_default(text='is cool'):
     """
     Return Python, display text variable as default
