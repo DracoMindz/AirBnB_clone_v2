@@ -2,8 +2,8 @@
 """
 States Rules for accessing parts of the web
 """
-import flask
-from flask import Flask
+
+from flask import Flask, render_template
 app = Flask(__name__)
 
 
