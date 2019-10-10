@@ -76,3 +76,10 @@ class FileStorage:
                     self.__objects[key] = value
         except FileNotFoundError:
             pass
+
+    def close(self):
+        """
+        task #7 Air BnB v2
+        calls reload method for deserializing JSON file to objects
+        """
+        self.reload()
